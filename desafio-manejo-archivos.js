@@ -148,7 +148,7 @@ Productos.save([
       "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
   },
 ]);
-// Productos.getById(4)
-// Productos.getAll()
-// Productos.deleteById(2)
-// Productos.deleteAll()
+ Productos.getById(4)
+ Productos.getAll()
+ Productos.deleteById(2)
+ Productos.deleteAll()
