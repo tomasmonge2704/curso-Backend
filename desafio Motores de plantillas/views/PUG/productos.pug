@@ -1,0 +1,32 @@
+html
+    head
+        meta(charset="UTF-8") 
+        meta(http-equiv="X-UA-Compatible" content="IE=edge") 
+        meta(name="viewport" content="width=device-width, initial-scale=1.0") 
+        title Document
+        link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous")
+
+    body
+    div 
+        class="container mt-3"        
+        div (class="jumbotron")
+            h2 (style="color:crimson;")Productos
+            if productos
+                div (class="table-responsive")
+                    table (class="table table-dark")
+                        tr (style="color: yellow")
+                            th Nombre
+                            th Precio 
+                            th Imagen
+                       
+                      
+                  
+                    
+                    form (action="/volver" method="post")
+                        button (class="btn btn-success mt-3 mb-5") volver a Cargar productos
+                    
+               
+            else
+                        h3 (class="alert alert-danger")no se encontraron datos
+                        form (action="/volver" method="post")
+                            button (class="btn btn-success mt-3 mb-5")volver a Cargar productos

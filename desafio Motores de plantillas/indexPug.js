@@ -1,18 +1,10 @@
 const express = require('express')
 const app = express()
 const productos = []
-//app
-const exphbs = require("express-handlebars");
-
-app.engine("hbs",exphbs.engine({
-  extname:".hbs",
-  defaultLayout:null,
-  layoutsDir:__dirname + "/views/handlebars",
-  partialsDir:__dirname + "/views/handlebars"
-}))
-app.set("views", "./views/handlebars");
-app.set("view engine", "hbs");
+// //ejs
 app.use(express.urlencoded({extended:true}))
+app.set("views", "./views/PUG");
+app.set("view engine", "pug");
 //ROUTES
 app.get('/', (req,res) =>{
     res.render('inicio', { productos });
