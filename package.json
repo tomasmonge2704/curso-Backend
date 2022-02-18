@@ -1,5 +1,35 @@
 {
   "dependencies": {
-    "express": "^4.17.2"
-  }
+    "@babel/cli": "^7.17.0",
+    "@babel/core": "^7.17.2",
+    "@babel/preset-env": "^7.16.11",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-handlebars": "^6.0.2",
+    "multer": "^1.4.4",
+    "pug": "^3.0.2",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "pug.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack ./a1.js ./a2.js ./a3.js --mode=production",
+    "dev": "webpack ./a1.js ./a2.js ./a3.js -w --mode=development",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasmonge2704/curso-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomasmonge2704/curso-Backend/issues"
+  },
+  "homepage": "https://github.com/tomasmonge2704/curso-Backend#readme",
+  "description": ""
 }
