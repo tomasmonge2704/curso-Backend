@@ -1,0 +1,23 @@
+<h2 style="color:crimson;">Productos</h2>
+<% if(productos.lenght != 0){ %>
+    <div class="table-responsive">
+        <table class="table table-dark">
+            <tr style="color: yellow"><th>Nombre</th><th>Precio</th><th>Imagen</th></tr>
+            <% for ( const persona of productos) { %>
+            <tr>
+                <td><%=persona.nombre%></td>
+                <td>$<%=persona.Precio%></td>
+                <td><img src="<%=persona.fotoURL%>" style="max-height:30px"></td>
+            </tr>
+            <%};%>
+        </table>
+        <form action="/volver" method="post">
+        <button class="btn btn-success mt-3 mb-5">volver a Cargar productos</button>
+        </form>
+    </div>
+<% } else{ %>
+            <h3 class="alert alert-danger">no se encontraron datos </h3>
+            <form action="/volver" method="post">
+                <button class="btn btn-success mt-3 mb-5">volver a Cargar productos</button>
+            </form>
+<% } %>
