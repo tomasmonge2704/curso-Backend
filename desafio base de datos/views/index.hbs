@@ -15,16 +15,16 @@
       <br>
             <form action="/productos" method="post">
               <div class="form-group">
-               <label for="nombre"><b>Nombre</b></label> 
-               <input id="nombre" class="form-control" type="text" name="nombre">
+               <label for="name"><b>Nombre</b></label> 
+               <input id="name" class="form-control" type="text" name="name">
               </div>
               <div class="form-group">
-                <label for="Precio"><b>Precio</b></label> 
-                <input id="Precio" class="form-control" type="text" name="Precio">
+                <label for="precio"><b>Precio</b></label> 
+                <input id="precio" class="form-control" type="number" name="precio">
                </div>
                <div class="form-group">
-                <label for="fotoURL"><b>Foto URL</b></label> 
-                <input id="fotoURL" class="form-control" type="text" name="fotoURL">
+                <label for="imageURL"><b>Foto URL</b></label> 
+                <input id="imageURL" class="form-control" type="text" name="imageURL">
                </div>
                <button class="btn btn-success mt-3 mb-5">Enviar</button>
             </form>
@@ -40,9 +40,9 @@
                     <tr style="color: yellow"><th>Nombre</th><th>Precio</th><th>Imagen</th></tr>
                     {{#each productos}}
                     <tr>
-                        <td>{{this.nombre}}</td>
-                        <td>${{this.Precio}}</td>
-                        <td><img src="{{this.fotoURL}}" style="max-height:30px"></td>
+                        <td>{{this.name}}</td>
+                        <td>${{this.precio}}</td>
+                        <td><img src="{{this.imageURL}}" style="max-height:30px"></td>
                     </tr>
                    {{/each}}
                 </table>
