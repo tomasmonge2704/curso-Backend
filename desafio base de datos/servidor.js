@@ -5,21 +5,16 @@ const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 const exphbs = require("express-handlebars");
-const dbHelpers = require("./dbHelpers")
-var hoy = new Date();
-var fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getFullYear();
-var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
-var fechaYHora = fecha + ' ' + hora;
-const { options } = require('./mariaDB.js')
+const dbHelpersProductos = require("./MariaDB/dbHelpers")
+const dbHelpersMensajes = require("./SQLite3/dbHelpers")
+const { options } = require('./MariaDB/config.js')
 const knex = require('knex')(options);
 
 const productos = []
-dbHelpers.selectProductos(productos)
-const messages = [
-    { author: "Juan", text: "¡Hola! ¿Que tal?", time: fechaYHora },
-    { author: "Pedro", text: "¡Muy bien! ¿Y vos?", time: fechaYHora },
-    { author: "Ana", text: "¡Genial!", time: fechaYHora }
-];
+dbHelpersProductos.selectProductos(productos)
+const messages = []
+dbHelpersMensajes.selectMensajes(messages)
+
 app.use(express.static('views'))
 app.engine("hbs", exphbs.engine({
     extname: ".hbs",

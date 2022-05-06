@@ -1,4 +1,8 @@
 const socket = io.connect();
+var hoy = new Date();
+var fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getFullYear();
+var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+var fechaYHora = fecha + ' ' + hora;
 
 socket.on('messages', data => {
     console.log(data);
@@ -7,7 +11,9 @@ function render(data) {
     const html = data.map((elem, index) => {
         return(`<div>
             <strong>${elem.author}</strong>:
-            <em>${elem.text}</em> </div>`)
+            <em>${elem.text}</em>
+            <em> ${fechaYHora}</em>
+            </div>`)
     }).join(" ");
     document.getElementById('messages').innerHTML = html;
 }
