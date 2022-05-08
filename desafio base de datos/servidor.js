@@ -7,8 +7,7 @@ const io = new IOServer(httpServer)
 const exphbs = require("express-handlebars");
 const dbHelpersProductos = require("./MariaDB/dbHelpers")
 const dbHelpersMensajes = require("./SQLite3/dbHelpers")
-const { options } = require('./MariaDB/config.js')
-const knex = require('knex')(options);
+
 
 const productos = []
 dbHelpersProductos.selectProductos(productos)
@@ -33,13 +32,8 @@ app.post('/productos', (req, res) => {
     req.body.precio = parseInt(req.body.precio)
     const producto = req.body
     productos.push(producto)
-    knex('productos').insert(producto).then( data => {
-        res.redirect('/')
-    }).catch(err => {
-        console.log(err)
-        res.send(err)
-      })
-    
+    dbHelpersProductos.insertProducto(producto)
+    res.redirect('/')
 })
 io.on('connection', socket => {
     console.log('Un cliente se ha conectado');
@@ -47,6 +41,7 @@ io.on('connection', socket => {
 
     socket.on('new-message', data => {
         messages.push(data);
+       dbHelpersMensajes.insertMensajes(data)
         io.sockets.emit('messages', messages);
     });
 });
