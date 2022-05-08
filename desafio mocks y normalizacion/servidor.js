@@ -28,6 +28,9 @@ app.use(express.urlencoded({ extended: true }))
 app.get('/', (req, res) => {
     res.render('index', { productos });
 });
+app.get('/productos', (req,res) =>{
+    res.render('productos', { productos });
+});
 app.post('/productos', (req, res) => {
     req.body.precio = parseInt(req.body.precio)
     const producto = req.body
