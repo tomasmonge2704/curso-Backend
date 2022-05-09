@@ -6,14 +6,13 @@ const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 const exphbs = require("express-handlebars");
 const dbHelpersProductos = require("./MariaDB/dbHelpers")
-const dbHelpersMensajes = require("./SQLite3/dbHelpers")
-
-
-const productos = []
+const productosFaker = require("./generadorProductos").productosFaker
+const mensajesMongo = require('./MongoDB/index')
+let productos = []
 dbHelpersProductos.selectProductos(productos)
-const messages = []
-dbHelpersMensajes.selectMensajes(messages)
-
+let mensajes = []
+mensajesMongo.readMensajes(mensajes)
+console.log(mensajes)
 app.use(express.static('views'))
 app.engine("hbs", exphbs.engine({
     extname: ".hbs",
@@ -31,6 +30,11 @@ app.get('/', (req, res) => {
 app.get('/productos', (req,res) =>{
     res.render('productos', { productos });
 });
+
+app.get('/api/productos-test', (req,res) =>{
+    productos = productosFaker
+    res.render('productos', {productos});
+});
 app.post('/productos', (req, res) => {
     req.body.precio = parseInt(req.body.precio)
     const producto = req.body
@@ -40,12 +44,12 @@ app.post('/productos', (req, res) => {
 })
 io.on('connection', socket => {
     console.log('Un cliente se ha conectado');
-    socket.emit('messages', messages);
+    socket.emit('messages', mensajes);
 
     socket.on('new-message', data => {
-        messages.push(data);
-       dbHelpersMensajes.insertMensajes(data)
-        io.sockets.emit('messages', messages);
+        mensajes.push(data);
+        mensajesMongo.createMensajes(data)
+        io.sockets.emit('messages', mensajes);
     });
 });
 

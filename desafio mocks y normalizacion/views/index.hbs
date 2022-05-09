@@ -60,13 +60,18 @@
     <div class="jumbotron">
     <h1 style="color:blue">Centro de mensajes</h1>
     
-    <form onsubmit="return addMessage(this)" >
-        <input type="text" class="form-control" style="width: 30%;" id="username" placeholder="Email" >
-         <div id="messages" class="container mt-3">
+    <form onsubmit="return addMessage(this)" style="display:grid;" >
+        <input type="text" class="form-control" style="width: 30%;" id="email" placeholder="Email" >
+        <input type="text" class="form-control" style="width: 30%; display:initial; margin-top:10px;" id="nombre" placeholder="nombre">
+       <input type="text" class="form-control" style="width: 30%; display:initial; margin-top:10px;" id="apellido" placeholder="apellido">
+       <input type="text" class="form-control" style="width: 30%; display:initial; margin-top:10px;" id="edad" placeholder="edad">
+        <input type="text" class="form-control" style="width: 30%; display:initial; margin-top:10px;" id="alias" placeholder="alias">
+                <input type="text" class="form-control" style="width: 30%; display:initial; margin-top:10px;" id="avatar" placeholder="avatar(foto URL)">
+        <div id="messages" class="container mt-3">
        
           </div>
-        <input type="text" class="form-control" style="width: 30%; display:initial; margin-top:5%;" id="texto" placeholder="Ingressa un mensaje...">
-        <input type="submit" class="btn btn-primary" value="Enviar">
+          <input type="text" class="form-control" style="width: 30%; display:initial; margin-top:10px;" id="texto" placeholder="Ingressa un mensaje...">
+        <input type="submit" class="btn btn-primary" value="Enviar" class="form-control" style="width: 30%; display:initial; margin-top:10px;">
     </form>
     </div>
     </div>
