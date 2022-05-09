@@ -1,5 +1,5 @@
 const socket = io.connect();
-function date(){
+function date() {
     var hoy = new Date();
     var fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getFullYear();
     var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
@@ -13,7 +13,7 @@ socket.on('messages', data => {
 });
 function render(data) {
     const html = data.map((elem, index) => {
-        return(`<div>
+        return (`<div>
             <strong>${elem.author.id}</strong>
             <em>[${elem.date}]:</em>
             <em>${elem.text}</em>
@@ -23,19 +23,43 @@ function render(data) {
     document.getElementById('messages').innerHTML = html;
 }
 
-socket.on('messages', function(data) { render(data); });
+socket.on('messages', function (data) { render(data); });
 function addMessage(e) {
     const mensaje = {
-        author:{id:document.getElementById('email').value,
-                nombre:document.getElementById('nombre').value,
-                apellido:document.getElementById('apellido').value,
-                edad:document.getElementById('edad').value,
-                alias:document.getElementById('alias').value,
-                avatar:document.getElementById('avatar').value,
-    },
+        author: {
+            id: document.getElementById('email').value,
+            nombre: document.getElementById('nombre').value,
+            apellido: document.getElementById('apellido').value,
+            edad: document.getElementById('edad').value,
+            alias: document.getElementById('alias').value,
+            avatar: document.getElementById('avatar').value,
+        },
         text: document.getElementById('texto').value,
-        date:date()
+        date: date()
     };
     socket.emit('new-message', mensaje);
+    return false;
+}
+function renderProductos(data) {
+    const html = data.map((elem, index) => {
+        return (`
+        <tr>
+        <td>${elem.name}</td>
+        <td>${elem.precio}</td>
+        <td><img src="${elem.imageURL}" style="max-height:30px"></td>
+    </tr>
+    `)
+    }).join(" ");
+    document.getElementById('productos').innerHTML = html;
+}
+
+socket.on('productos', function (data) { renderProductos(data); });
+function addProd(e) {
+    const producto = {
+        name: document.getElementById('name').value,
+        precio: document.getElementById('precio').value,
+        imageURL: document.getElementById('imageURL').value,
+    };
+    socket.emit('new-product', producto);
     return false;
 }

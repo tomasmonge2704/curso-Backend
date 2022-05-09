@@ -13,7 +13,7 @@
     <div class="jumbotron">
       <h1 style="color:blue">Ingrese Producto</h1>
       <br>
-            <form action="/productos" method="post">
+            <form action="/productos" method="post" onsubmit="return addProd(this)">
               <div class="form-group">
                <label for="name"><b>Nombre</b></label> 
                <input id="name" class="form-control" type="text" name="name">
@@ -37,22 +37,17 @@
         <form action="/productos" method="get">
                 <button class="btn btn-success mt-3 mb-5">Ver Productos</button>
                 </form>
-        {{#if productos}}
+                {{#if productos}}
             <div class="table-responsive">
                 <table class="table table-dark">
                     <tr style="color: yellow"><th>Nombre</th><th>Precio</th><th>Imagen</th></tr>
-                    {{#each productos}}
-                    <tr>
-                        <td>{{this.name}}</td>
-                        <td>${{this.precio}}</td>
-                        <td><img src="{{this.imageURL}}" style="max-height:30px"></td>
-                    </tr>
-                   {{/each}}
+                    <tbody id="productos"></tbody>
                 </table>
             </div>
          {{else}}
                     <h3 class="alert alert-danger">no se encontraron datos </h3>
         {{/if}}
+                    
     </div>
   </div>
   

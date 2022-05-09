@@ -40,16 +40,20 @@ app.post('/productos', (req, res) => {
     const producto = req.body
     productos.push(producto)
     dbHelpersProductos.insertProducto(producto)
-    res.redirect('/')
 })
 io.on('connection', socket => {
     console.log('Un cliente se ha conectado');
     socket.emit('messages', mensajes);
-
+    socket.emit('productos', productos);
     socket.on('new-message', data => {
         mensajes.push(data);
-        mensajesMongo.createMensajes(data)
         io.sockets.emit('messages', mensajes);
+        mensajesMongo.createMensajes(data)
+    });
+    socket.on('new-product', data => {
+        productos.push(data);
+        io.sockets.emit('productos', productos);
+        dbHelpersProductos.insertProducto(data)
     });
 });
 
