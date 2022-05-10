@@ -1,4 +1,5 @@
 const socket = io.connect();
+const denormalize = normalizr.denormalize;
 function date() {
     var hoy = new Date();
     var fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getFullYear();
@@ -7,10 +8,6 @@ function date() {
     return fechaYHora
 }
 
-
-socket.on('messages', data => {
-    console.log(data);
-});
 function render(data) {
     const html = data.map((elem, index) => {
         return (`<div>

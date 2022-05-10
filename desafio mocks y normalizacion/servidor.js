@@ -8,11 +8,14 @@ const exphbs = require("express-handlebars");
 const dbHelpersProductos = require("./MariaDB/dbHelpers")
 const productosFaker = require("./generadorProductos").productosFaker
 const mensajesMongo = require('./MongoDB/index')
+const normalizr = require('normalizr');
+const normalize = normalizr.normalize;
+const schema = normalizr.schema;
+
 let productos = []
 dbHelpersProductos.selectProductos(productos)
-let mensajes = []
+let mensajes = {mensajes:[]}
 mensajesMongo.readMensajes(mensajes)
-console.log(mensajes)
 app.use(express.static('views'))
 app.engine("hbs", exphbs.engine({
     extname: ".hbs",
@@ -23,6 +26,21 @@ app.engine("hbs", exphbs.engine({
 app.set("views", "./views");
 app.set("view engine", "hbs");
 app.use(express.urlencoded({ extended: true }))
+//normalizer
+function normilizee () {
+    const user = new schema.Entity('mensajes');
+    const comment = new schema.Entity('comments', { commenter: user });
+    const article = new schema.Entity('articles',{
+      author:user,
+      comments:[comment]
+    },{idAttribute: 'email'});
+    const post = new schema.Entity('posts',{
+      posts:[article]
+    })
+    const normalizedData = normalize(mensajes, post);
+    console.log(JSON.stringify(normalizedData))
+}
+  
 //ROUTES
 app.get('/', (req, res) => {
     res.render('index', { productos });
@@ -43,11 +61,11 @@ app.post('/productos', (req, res) => {
 })
 io.on('connection', socket => {
     console.log('Un cliente se ha conectado');
-    socket.emit('messages', mensajes);
+    socket.emit('messages', mensajes.mensajes);
     socket.emit('productos', productos);
     socket.on('new-message', data => {
-        mensajes.push(data);
-        io.sockets.emit('messages', mensajes);
+        mensajes.mensajes.push(data);
+        io.sockets.emit('messages', mensajes.mensajes);
         mensajesMongo.createMensajes(data)
     });
     socket.on('new-product', data => {
@@ -61,3 +79,4 @@ io.on('connection', socket => {
 httpServer.listen(8080, function () {
     console.log('Servidor corriendo en http://localhost:8080');
 })
+
