@@ -1,5 +1,7 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
 const app = express()
@@ -17,18 +19,22 @@ let productos = []
 dbHelpersProductos.selectProductos(productos)
 let mensajes = {mensajes:[]}
 mensajesMongo.readMensajes(mensajes)
-
+app.use(cookieParser())
 app.use(session({
+    store: MongoStore.create({
+        mongoUrl:'mongodb+srv://tomas2:1roZJIVtj5JnG5HH@cluster0.nmb6c.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+        mongoOptions:{useNewUrlParser:true, useUnifiedTopology:true}
+    }),
     secret: 'secreto',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }))
 
 function auth(req, res, next) {
     if (req.session?.user === 'pepe' && req.session?.admin) {
         return next()
     }
-    return res.redirect('/login')
+    return res.redirect(401,'/login')
 }
 
 app.use(express.static('views'))
