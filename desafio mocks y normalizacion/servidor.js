@@ -14,8 +14,9 @@ const schema = normalizr.schema;
 
 let productos = []
 dbHelpersProductos.selectProductos(productos)
-let mensajes = {mensajes:[]}
+let mensajes = { mensajes: [] }
 mensajesMongo.readMensajes(mensajes)
+
 app.use(express.static('views'))
 app.engine("hbs", exphbs.engine({
     extname: ".hbs",
@@ -27,31 +28,31 @@ app.set("views", "./views");
 app.set("view engine", "hbs");
 app.use(express.urlencoded({ extended: true }))
 //normalizer
-function normilizee () {
+function normilizee() {
     const user = new schema.Entity('mensajes');
     const comment = new schema.Entity('comments', { commenter: user });
-    const article = new schema.Entity('articles',{
-      author:user,
-      comments:[comment]
-    },{idAttribute: 'email'});
-    const post = new schema.Entity('posts',{
-      posts:[article]
+    const article = new schema.Entity('articles', {
+        author: user,
+        comments: [comment]
+    }, { idAttribute: 'email' });
+    const post = new schema.Entity('posts', {
+        posts: [article]
     })
     const normalizedData = normalize(mensajes, post);
     console.log(JSON.stringify(normalizedData))
 }
-  
+
 //ROUTES
 app.get('/', (req, res) => {
     res.render('index', { productos });
 });
-app.get('/productos', (req,res) =>{
+app.get('/productos', (req, res) => {
     res.render('productos', { productos });
 });
 
-app.get('/api/productos-test', (req,res) =>{
+app.get('/api/productos-test', (req, res) => {
     productos = productosFaker
-    res.render('productos', {productos});
+    res.render('productos', { productos });
 });
 app.post('/productos', (req, res) => {
     req.body.precio = parseInt(req.body.precio)
